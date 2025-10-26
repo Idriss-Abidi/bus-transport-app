@@ -1,0 +1,10 @@
+### Create a new trajet
+POST http://localhost:4000/api/trajets
+Content-Type: application/json
+
+{
+  "source": "City A",
+  "destination": "City B",
+  "dureeEstimee": "PT2H30M",
+  "stationIds": [1, 2]
+}
