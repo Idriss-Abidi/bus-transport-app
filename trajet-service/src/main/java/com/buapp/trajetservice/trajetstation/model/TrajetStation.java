@@ -6,7 +6,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "trajet_stations")
+@Table(
+    name = "trajet_stations",
+    uniqueConstraints = @UniqueConstraint(name = "uk_trajet_station", columnNames = {"trajet_id", "station_id"})
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,4 +31,9 @@ public class TrajetStation {
 
     @Column(name = "ordre_dans_trajet")
     private Integer ordreDansTrajet;
+
+    // Estimated minutes from previous stop to reach this station.
+    // For the first station this represents minutes from the trajet start to the first station.
+    @Column(name = "estimated_minutes")
+    private Integer estimatedMinutes;
 }

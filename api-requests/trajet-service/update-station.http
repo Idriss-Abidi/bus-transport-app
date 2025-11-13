@@ -1,7 +1,0 @@
-### Update an existing station
-PUT http://localhost:4000/api/stations/2
-Content-Type: application/json
-
-{
-  "nom": ""
-}

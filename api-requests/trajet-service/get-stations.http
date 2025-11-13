@@ -1,2 +1,0 @@
-### Get all stations
-GET http://localhost:4000/api/stations

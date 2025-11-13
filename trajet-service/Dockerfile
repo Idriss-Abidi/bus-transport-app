@@ -8,13 +8,15 @@ RUN mvn dependency:go-offline -B
 
 COPY src ./src
 
-RUN mvn clean package
+# Build application and skip tests for faster image creation
+RUN mvn clean package -DskipTests
 
-FROM openjdk:21-jdk AS runtime
+FROM eclipse-temurin:21-jre AS runner
 
 WORKDIR /app
 
-COPY --from=build /app/target/trajet-service-0.0.1-SNAPSHOT.jar ./app.jar
+# Copy the built jar; wildcard avoids hardcoding the exact version
+COPY --from=build /app/target/*.jar ./app.jar
 
 EXPOSE 4000
 

@@ -1,7 +1,0 @@
-### Create a new station
-POST http://localhost:4000/api/stations
-Content-Type: application/json
-
-{
-  "nom": "Station C"
-}

@@ -13,6 +13,9 @@ public class TrajetResponseDTO {
     private Long id;
     private String source;
     private String destination;
+    private Long cityId;
     private Duration dureeEstimee;
     private List<String> stationNames;
+    // Derived from TrajetTime entries when needed; may be null in some responses
+    private List<String> startTimes;
 }

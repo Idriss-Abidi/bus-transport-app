@@ -1,0 +1,18 @@
+### Create station
+POST http://localhost:4004/api/stations
+Content-Type: application/json
+
+{
+  "nom": "Station C"
+}
+
+### List stations
+GET http://localhost:4004/api/stations
+
+### Update station
+PUT http://localhost:4004/api/stations/1
+Content-Type: application/json
+
+{
+  "nom": "Station A (updated)"
+}

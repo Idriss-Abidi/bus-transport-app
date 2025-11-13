@@ -1,2 +1,0 @@
-### Get all trajets
-GET http://localhost:4000/api/trajets

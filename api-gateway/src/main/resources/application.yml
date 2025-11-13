@@ -1,0 +1,73 @@
+server:
+  port: 4004 # Gateway listens on port 4004
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Route for /api/trajets/** to trajet-service
+        - id: trajet-service-route
+          # When running in Docker, the gateway container can reach the trajet
+          # container by its service name (container name) on the same Docker network.
+          # Use http://trajet-service:4000 for container-to-container communication.
+          uri: http://trajet-service:4000
+          predicates:
+            - Path=/api/trajets/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/stations/** to trajet-service
+        - id: station-service-route
+          uri: http://trajet-service:4000
+          predicates:
+            - Path=/api/stations/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/trajet-times/** to trajet-service
+        - id: trajet-times-route
+          uri: http://trajet-service:4000
+          predicates:
+            - Path=/api/trajet-times/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/trajet-stations/** to trajet-service
+        - id: trajet-stations-route
+          uri: http://trajet-service:4000
+          predicates:
+            - Path=/api/trajet-stations/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/trajet-cities/** to trajet-service
+        - id: trajet-cities-route
+          uri: http://trajet-service:4000
+          predicates:
+            - Path=/api/trajet-cities/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/docs/trajets -> /v3/api-docs on trajet-service
+        - id: api-docs-trajet-route
+          uri: http://trajet-service:4000
+          predicates:
+            - Path=/api-docs/trajets
+          filters:
+            - RewritePath=/api-docs/trajets,/v3/api-docs
+
+        # Route for /api/tickets/** to ticket-service
+        - id: ticket-service-route
+          uri: http://ticket-service:4003
+          predicates:
+            - Path=/api/tickets/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/docs/tickets -> /v3/api-docs on ticket-service
+        - id: api-docs-ticket-route
+          uri: http://ticket-service:4003
+          predicates:
+            - Path=/api-docs/tickets
+          filters:
+            - RewritePath=/api-docs/tickets,/v3/api-docs
