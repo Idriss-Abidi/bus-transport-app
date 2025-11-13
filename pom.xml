@@ -23,6 +23,7 @@
     </developers>
     <modules>
         <module>user-service</module>
+        <module>abonnement-service</module>
     </modules>
     <scm>
         <connection/>
