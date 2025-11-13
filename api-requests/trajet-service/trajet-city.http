@@ -1,0 +1,27 @@
+### Create a city
+# @no-cookie-jar
+POST http://localhost:4004/api/trajet-cities
+Content-Type: application/json
+
+{
+  "cityName": "Rabat",
+  "priceInDhs": 5.50
+}
+
+### List cities
+GET http://localhost:4004/api/trajet-cities
+
+### Get city by id
+GET http://localhost:4004/api/trajet-cities/1
+
+### Update city
+PUT http://localhost:4004/api/trajet-cities/1
+Content-Type: application/json
+
+{
+  "cityName": "Alger Centre",
+  "priceInDhs": 30.00
+}
+
+### Delete city
+DELETE http://localhost:4004/api/trajet-cities/1

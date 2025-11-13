@@ -1,0 +1,5 @@
+### List Tickets by Trajet ID (via API Gateway)
+@baseUrl = http://localhost:4004
+@trajetId = 1
+
+GET {{baseUrl}}/api/tickets?trajetId={{trajetId}}

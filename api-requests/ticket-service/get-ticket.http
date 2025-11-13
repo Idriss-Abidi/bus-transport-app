@@ -1,0 +1,5 @@
+### Get Ticket by ID (via API Gateway)
+@baseUrl = http://localhost:4004
+@id = 2
+
+GET {{baseUrl}}/api/tickets/{{id}}

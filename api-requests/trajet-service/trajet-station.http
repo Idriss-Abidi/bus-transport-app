@@ -1,0 +1,30 @@
+### Create a trajet-station link
+POST http://localhost:4004/api/trajet-stations
+Content-Type: application/json
+
+{
+  "trajetId": 1,
+  "stationId": 2,
+  "ordreDansTrajet": 3,
+  "estimatedMinutes": 5
+}
+
+### List ordered stations for a trajet
+GET http://localhost:4004/api/trajet-stations/by-trajet/1
+
+### Get a trajet-station by id
+GET http://localhost:4004/api/trajet-stations/1
+
+### Update a trajet-station
+PUT http://localhost:4004/api/trajet-stations/1
+Content-Type: application/json
+
+{
+  "trajetId": 1,
+  "stationId": 2,
+  "ordreDansTrajet": 2,
+  "estimatedMinutes": 12
+}
+
+### Delete a trajet-station
+DELETE http://localhost:4004/api/trajet-stations/1
