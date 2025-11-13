@@ -1,0 +1,4 @@
+### List Tickets (via API Gateway)
+@baseUrl = http://localhost:4004
+
+GET {{baseUrl}}/api/tickets

@@ -1,0 +1,25 @@
+### Create trajet (with stations and initial startTimes saved to trajet_times)
+POST http://localhost:4004/api/trajets
+Content-Type: application/json
+
+{
+  "source": "Station A",
+  "destination": "Station B",
+  "cityId": 1,
+  "dureeEstimee": "PT45M",
+  "stationIds": [1,2],
+  "stationDurations": [8,12],
+  "startTimes": ["09:00","09:30"]
+}
+
+### List all trajets
+GET http://localhost:4004/api/trajets
+
+### Get trajet by id
+GET http://localhost:4004/api/trajets/2
+
+### List trajets by city
+GET http://localhost:4004/api/trajets/city/1
+
+### Get schedules (arrival times for each start time)
+GET http://localhost:4004/api/trajets/1/schedules
