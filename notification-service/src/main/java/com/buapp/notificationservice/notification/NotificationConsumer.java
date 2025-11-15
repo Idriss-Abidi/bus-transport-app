@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import com.buapp.ticketservice.kafka.AchatEvent;
-
+import com.buapp.notificationservice.notification.AchatEvent;
 @Slf4j
 @Component
 @RequiredArgsConstructor
