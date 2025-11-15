@@ -1,9 +1,9 @@
-package com.buapp.user_service.controller;
+package com.buapp.user_service2.controller;
 
-import com.buapp.user_service.dto.AuthResponse;
-import com.buapp.user_service.dto.LoginRequest;
-import com.buapp.user_service.dto.RegisterRequest;
-import com.buapp.user_service.service.UserService;
+import com.buapp.user_service2.dto.AuthResponse;
+import com.buapp.user_service2.dto.LoginRequest;
+import com.buapp.user_service2.dto.RegisterRequest;
+import com.buapp.user_service2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

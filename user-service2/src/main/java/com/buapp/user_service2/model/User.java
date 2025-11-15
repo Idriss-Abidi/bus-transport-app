@@ -1,6 +1,6 @@
-package com.buapp.user_service.model;
+package com.buapp.user_service2.model;
 
-import com.buapp.user_service.enums.UserRole;
+import com.buapp.user_service2.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

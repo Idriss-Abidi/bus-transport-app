@@ -1,7 +1,7 @@
-package com.buapp.user_service.controller;
+package com.buapp.user_service2.controller;
 
-import com.buapp.user_service.dto.UserResponse;
-import com.buapp.user_service.service.AdminService;
+import com.buapp.user_service2.dto.UserResponse;
+import com.buapp.user_service2.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.buapp.user_service.enums;
+package com.buapp.user_service2.enums;
 
 /**
  * @author DELL
