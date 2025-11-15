@@ -11,6 +11,8 @@ import java.util.List;
 @Builder
 public class TrajetResponseDTO {
     private Long id;
+        // Exposing nomTrajet for ticket-service consumption
+        private String nomTrajet;
     private String source;
     private String destination;
     private Long cityId;

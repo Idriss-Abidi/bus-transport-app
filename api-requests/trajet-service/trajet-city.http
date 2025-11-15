@@ -4,7 +4,7 @@ POST http://localhost:4004/api/trajet-cities
 Content-Type: application/json
 
 {
-  "cityName": "Rabat",
+  "cityName": "Sale",
   "priceInDhs": 5.50
 }
 

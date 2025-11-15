@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 public class TicketResponse {
     Long id;
     Long trajetId;
+    String nomTrajet;
+    String cityName;
     BigDecimal price;
     String description;
     LocalDateTime createdAt;

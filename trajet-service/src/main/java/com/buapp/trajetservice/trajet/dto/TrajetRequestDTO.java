@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class TrajetRequestDTO {
+    @NotBlank(message = "Le nom du trajet ne peut pas être nul")
+    private String nomTrajet;
     @NotBlank(message = "La source du trajet ne peut pas être nulle")
     private String source;
     @NotBlank(message = "La destination du trajet ne peut pas être nulle")

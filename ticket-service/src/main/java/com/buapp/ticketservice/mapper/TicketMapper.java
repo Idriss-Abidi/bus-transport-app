@@ -24,6 +24,7 @@ public class TicketMapper {
                 .trajetId(req.getTrajetId())
                 .price(price)
                 .description(req.getDescription())
+                // nomTrajet, cityName and userName are set in service where remote lookups are available
                 .build();
     }
 
@@ -32,6 +33,8 @@ public class TicketMapper {
         return TicketResponse.builder()
                 .id(t.getId())
                 .trajetId(t.getTrajetId())
+                .nomTrajet(t.getNomTrajet())
+                .cityName(t.getCityName())
                 .price(t.getPrice())
                 .description(t.getDescription())
                 .createdAt(t.getCreatedAt())

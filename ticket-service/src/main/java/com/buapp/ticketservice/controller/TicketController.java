@@ -56,5 +56,57 @@ public class TicketController {
     public void delete(@PathVariable @Positive Long id) {
         ticketService.delete(id);
     }
+
+    // Achat endpoints under the same controller (as requested)
+
+    @PostMapping("/achats")
+    @Operation(summary = "Create achat (purchase)", description = "Creates a purchase for a ticket by a user. Initially valid=true; createdAt is set.")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AchatResponse createAchat(@Valid @RequestBody AchatCreateRequest req) {
+        return ticketService.createAchat(req);
+    }
+
+    @PatchMapping("/achats/{id}/validate")
+    @Operation(summary = "Validate in bus (consume)", description = "Marks achat as not valid and sets validatedAt timestamp.")
+    public AchatResponse validateAchat(@PathVariable @Positive Long id) {
+        return ticketService.validateAchat(id);
+    }
+
+    @GetMapping("/achats/{id}")
+    @Operation(summary = "Get achat by id")
+    public AchatResponse getAchat(@PathVariable @Positive Long id) {
+        return ticketService.getAchat(id);
+    }
+
+    @GetMapping("/achats")
+    @Operation(summary = "List all achats")
+    public java.util.List<AchatResponse> listAchats() {
+        return ticketService.listAchats();
+    }
+
+    @GetMapping("/achats/users/{userId}")
+    @Operation(summary = "List achats by user")
+    public java.util.List<AchatResponse> listAchatsByUser(@PathVariable @Positive Long userId) {
+        return ticketService.listAchatsByUser(userId);
+    }
+
+    @GetMapping("/achats/users/{userId}/active")
+    @Operation(summary = "List active achats by user")
+    public java.util.List<AchatResponse> listActiveAchatsByUser(@PathVariable @Positive Long userId) {
+        return ticketService.listActiveAchatsByUser(userId);
+    }
+
+    // Tickets per user
+    @GetMapping("/users/{userId}")
+    @Operation(summary = "List all tickets bought by a user")
+    public List<TicketResponse> listTicketsByUser(@PathVariable @Positive Long userId) {
+        return ticketService.listTicketsByUser(userId);
+    }
+
+    @GetMapping("/users/{userId}/active")
+    @Operation(summary = "List active (valid) tickets for a user")
+    public List<TicketResponse> listActiveTicketsByUser(@PathVariable @Positive Long userId) {
+        return ticketService.listActiveTicketsByUser(userId);
+    }
 }
 

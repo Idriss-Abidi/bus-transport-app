@@ -3,6 +3,7 @@ POST http://localhost:4004/api/trajets
 Content-Type: application/json
 
 {
+  "nomTrajet": "Ligne A",
   "source": "Station A",
   "destination": "Station B",
   "cityId": 1,

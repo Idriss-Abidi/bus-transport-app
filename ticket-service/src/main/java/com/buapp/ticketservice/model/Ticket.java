@@ -28,6 +28,14 @@ public class Ticket {
     @Column(nullable = false, unique = true)
     private Long trajetId;
 
+    // denormalized fields for faster reads and event publishing
+    @Column(name = "nom_trajet")
+    private String nomTrajet;
+
+    @Column(name = "city_name")
+    private String cityName;
+
+
     // fixed price for this ticket (copied from trajet's city price at creation time)
     @Column(precision = 12, scale = 2, nullable = false)
     private BigDecimal price;

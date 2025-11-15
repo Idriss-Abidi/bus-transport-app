@@ -23,6 +23,7 @@ public class TrajetMapper {
 
         public Trajet toEntity(TrajetRequestDTO dto, List<Station> stations, TrajetCity city) {
         Trajet trajet = Trajet.builder()
+                                        .nomTrajet(dto.getNomTrajet())
                 .source(dto.getSource())
                 .destination(dto.getDestination())
                 .dureeEstimee(dto.getDureeEstimee())
@@ -64,6 +65,7 @@ public class TrajetMapper {
 
         TrajetResponseDTO.TrajetResponseDTOBuilder builder = TrajetResponseDTO.builder()
                 .id(trajet.getId())
+                .nomTrajet(trajet.getNomTrajet())
                 .source(trajet.getSource())
                 .destination(trajet.getDestination())
         .cityId(trajet.getCity() != null ? trajet.getCity().getId() : null)

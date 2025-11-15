@@ -1,0 +1,39 @@
+### Base URL via API Gateway (Docker)
+@baseUrl = http://localhost:4004/api
+
+### List notifications
+GET {{baseUrl}}/notifications
+
+### Get notification by id
+@id = 1
+GET {{baseUrl}}/notifications/{{id}}
+
+### Create notification (admin/test)
+POST {{baseUrl}}/notifications
+Content-Type: application/json
+
+{
+  "achatId": 1,
+  "userId": 1,
+  "userName": "John Doe",
+  "ticketId": 1,
+  "ticketDescription": "Optional description for the ticket 1",
+  "trajetId": 1,
+  "nomTrajet": "Ligne A",
+  "cityName": "Sale",
+  "priceInDhs": 5.50,
+  "achatCreatedAt": "2025-11-15T09:39:15"
+}
+
+### Update notification (admin/test)
+PUT {{baseUrl}}/notifications/{{id}}
+Content-Type: application/json
+
+{
+  "userName": "Jane Doe",
+  "cityName": "Rabat",
+  "priceInDhs": 6.00
+}
+
+### Delete notification (admin/test)
+DELETE {{baseUrl}}/notifications/{{id}}

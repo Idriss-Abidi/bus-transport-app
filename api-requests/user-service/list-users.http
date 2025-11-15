@@ -1,0 +1,4 @@
+### List Users (via API Gateway)
+@baseUrl = http://localhost:4004/api
+
+GET {{baseUrl}}/users
