@@ -26,6 +26,10 @@ public class Trajet {
     @Column(nullable = false)
     private String destination;
 
+    // Nouveau attribut: nom du trajet (exposé aux autres services)
+    @Column(name = "nom_trajet", nullable = false)
+    private String nomTrajet;
+
     @Column(name = "duree_estimee")
     private Duration dureeEstimee;
 

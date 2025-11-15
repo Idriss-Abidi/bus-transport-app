@@ -1,0 +1,11 @@
+### Create User (via API Gateway)
+@baseUrl = http://localhost:4004/api
+
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "jdoe",
+  "email": "jdoe@example.com",
+  "fullName": "John Doe"
+}

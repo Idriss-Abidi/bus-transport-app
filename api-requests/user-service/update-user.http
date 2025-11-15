@@ -1,0 +1,11 @@
+### Update User (via API Gateway)
+@baseUrl = http://localhost:4004/api
+@id = 1
+
+PUT {{baseUrl}}/users/{{id}}
+Content-Type: application/json
+
+{
+  "email": "newmail@example.com",
+  "fullName": "Johnathan Doe"
+}

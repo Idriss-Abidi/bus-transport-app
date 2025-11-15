@@ -1,28 +1,117 @@
 version: "3.9"
 
 networks:
-  app-net:
+  internal:
     driver: bridge
+    # Removed internal: true to allow host port publishing
+
+volumes:
+  trajet-db-data:
+  ticket-db-data:
+  user-db-data:
+  notification-db-data:
 
 services:
+  # Kafka broker (Bitnami Legacy Kafka 4.0.0)
+  kafka:
+    image: bitnamilegacy/kafka:4.0.0
+    container_name: kafka-compose
+    environment:
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_CFG_NODE_ID: 0
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      TZ: "UTC"
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    networks:
+      - internal
+
+  # Databases (one per service)
+  trajet-db:
+    image: postgres:16-alpine
+    container_name: trajet-db
+    environment:
+      POSTGRES_DB: trajetdb
+      POSTGRES_USER: trajet
+      POSTGRES_PASSWORD: trajet
+      TZ: "UTC"
+    volumes:
+      - trajet-db-data:/var/lib/postgresql/data
+    ports:
+      - "5000:5432"
+    networks:
+      - internal
+
+  ticket-db:
+    image: postgres:16-alpine
+    container_name: ticket-db
+    environment:
+      POSTGRES_DB: ticketdb
+      POSTGRES_USER: ticket
+      POSTGRES_PASSWORD: ticket
+      TZ: "UTC"
+    volumes:
+      - ticket-db-data:/var/lib/postgresql/data
+    ports:
+      - "5001:5432"
+    networks:
+      - internal
+
+  user-db:
+    image: postgres:16-alpine
+    container_name: user-db
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      TZ: "UTC"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    ports:
+      - "5002:5432"
+    networks:
+      - internal
+
+  notification-db:
+    image: postgres:16-alpine
+    container_name: notification-db
+    environment:
+      POSTGRES_DB: notificationdb
+      POSTGRES_USER: notification
+      POSTGRES_PASSWORD: notification
+      TZ: "UTC"
+    volumes:
+      - notification-db-data:/var/lib/postgresql/data
+    ports:
+      - "5003:5432"
+    networks:
+      - internal
+
+  # Application services
   trajet-service:
     build:
       context: ./trajet-service
       dockerfile: Dockerfile
     image: trajet-service:latest
     container_name: trajet-service
-    ports:
-      - "4000:4000"
+    depends_on:
+      - trajet-db
     environment:
-      # Leave empty to use H2 from application.properties; override for Postgres when needed
-      # SPRING_DATASOURCE_URL: jdbc:postgresql://trajet-service-db:5432/db
-      # SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      # SPRING_DATASOURCE_USERNAME: user
-      # SPRING_DATASOURCE_PASSWORD: pass
-      # SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://trajet-db:5432/trajetdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: trajet
+      SPRING_DATASOURCE_PASSWORD: trajet
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       TZ: "UTC"
     networks:
-      - app-net
+      - internal
+    ports:
+      - "4000:4000"
 
   ticket-service:
     build:
@@ -31,15 +120,44 @@ services:
     image: ticket-service:latest
     container_name: ticket-service
     depends_on:
+      - ticket-db
       - trajet-service
-    ports:
-      - "4003:4003"
+      - kafka
     environment:
-      # If you later switch to configurable base URLs, you can set:
-      # TRAJET_SERVICE_BASE_URL: http://trajet-service:4000
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ticket-db:5432/ticketdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: ticket
+      SPRING_DATASOURCE_PASSWORD: ticket
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # If app reads remote service base URL from env
+      TRAJET_SERVICE_BASE_URL: http://trajet-service:4000
+      # Kafka bootstrap for producer (Spring Boot property)
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       TZ: "UTC"
     networks:
-      - app-net
+      - internal
+    ports:
+      - "4003:4003"
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    image: user-service:latest
+    container_name: user-service
+    depends_on:
+      - user-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/userdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      TZ: "UTC"
+    networks:
+      - internal
+    ports:
+      - "4005:4005"
 
   api-gateway:
     build:
@@ -49,13 +167,30 @@ services:
     depends_on:
       - trajet-service
       - ticket-service
+      - user-service
+      - notification-service
     ports:
       - "4004:4004"
     environment:
-      # Using in-network DNS hostnames configured in application.yml (trajet-service, ticket-service)
-      # To override locally, set these:
-      # TRAJET_SERVICE_URL: http://trajet-service:4000
-      # TICKET_SERVICE_URL: http://ticket-service:4003
       TZ: "UTC"
     networks:
-      - app-net
+      - internal
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    image: notification-service:latest
+    container_name: notification-service
+    environment:
+      # Kafka config (Spring Boot property)
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ACHAT_CREATED_TOPIC: ticket
+      TZ: "UTC"
+    depends_on:
+      - kafka
+      - notification-db
+    networks:
+      - internal
+    ports:
+      - "4010:4010"

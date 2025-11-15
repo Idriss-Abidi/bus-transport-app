@@ -13,4 +13,5 @@ public class TicketCreateRequest {
 
     @Size(max = 255)
     private String description;
+
 }

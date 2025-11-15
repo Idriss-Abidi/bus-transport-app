@@ -1,0 +1,36 @@
+### Create Achat (via API Gateway)
+@baseUrl = http://localhost:4004/api
+
+POST {{baseUrl}}/tickets/achats
+Content-Type: application/json
+
+{
+  "ticketId": 1,
+  "userId": 1
+}
+
+
+### Get Achat by ID (via API Gateway)
+@id = 1
+
+GET {{baseUrl}}/tickets/achats/{{id}}
+
+
+### List Achats (via API Gateway)
+
+GET {{baseUrl}}/tickets/achats
+
+### List Achats by User (via API Gateway)
+@userId = 1
+
+GET {{baseUrl}}/tickets/achats/users/{{userId}}
+
+### List Active Achats by User (via API Gateway)
+@userId = 1
+
+GET {{baseUrl}}/tickets/achats/users/{{userId}}/active
+
+
+### Validate Achat in bus (consume, becomes not valid)
+
+PATCH {{baseUrl}}/tickets/achats/{{id}}/validate

@@ -60,6 +60,7 @@ spring:
         - id: ticket-service-route
           uri: http://ticket-service:4003
           predicates:
+
             - Path=/api/tickets/**
           filters:
             - StripPrefix=1
@@ -71,3 +72,35 @@ spring:
             - Path=/api-docs/tickets
           filters:
             - RewritePath=/api-docs/tickets,/v3/api-docs
+
+        # Route for /api/users/** to user-service
+        - id: user-service-route
+          uri: http://user-service:4005
+          predicates:
+            - Path=/api/users,/api/users/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/docs/users -> /v3/api-docs on user-service
+        - id: api-docs-user-route
+          uri: http://user-service:4005
+          predicates:
+            - Path=/api-docs/users
+          filters:
+            - RewritePath=/api-docs/users,/v3/api-docs
+
+        # Route for /api/notifications/** to notification-service
+        - id: notification-service-route
+          uri: http://notification-service:4010
+          predicates:
+            - Path=/api/notifications,/api/notifications/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/docs/notifications -> /v3/api-docs on notification-service
+        - id: api-docs-notification-route
+          uri: http://notification-service:4010
+          predicates:
+            - Path=/api-docs/notifications
+          filters:
+            - RewritePath=/api-docs/notifications,/v3/api-docs

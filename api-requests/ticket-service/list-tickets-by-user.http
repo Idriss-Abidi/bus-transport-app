@@ -1,0 +1,5 @@
+### List Tickets by User (via API Gateway)
+@baseUrl = http://localhost:4004
+@userId = 1
+
+GET {{baseUrl}}/api/tickets/users/{{userId}}

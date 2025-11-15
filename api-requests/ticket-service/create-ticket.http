@@ -5,6 +5,6 @@ POST {{baseUrl}}/api/tickets
 Content-Type: application/json
 
 {
-  "trajetId": 2,
-  "description": "Optional description for the ticket 2"
+  "trajetId": 1,
+  "description": "Optional description for the ticket 1"
 }

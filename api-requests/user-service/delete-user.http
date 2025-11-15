@@ -1,0 +1,5 @@
+### Delete User (via API Gateway)
+@baseUrl = http://localhost:4004/api
+@id = 1
+
+DELETE {{baseUrl}}/users/{{id}}
