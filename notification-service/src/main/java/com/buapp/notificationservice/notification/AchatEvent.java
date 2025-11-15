@@ -1,4 +1,4 @@
-package com.buapp.ticketservice.kafka;
+package com.buapp.notificationservice.notification;
 
 import lombok.Data;
 
