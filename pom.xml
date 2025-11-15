@@ -18,9 +18,7 @@
     <licenses>
         <license/>
     </licenses>
-    <developers>
-        <developer/>
-    </developers>
+
     <modules>
         <module>abonnement-service</module>
     </modules>
@@ -46,8 +44,6 @@
         </dependency>
     </dependencies>
 
-    <modules>
-    </modules>
 
     <dependencyManagement>
         <dependencies>
