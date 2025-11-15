@@ -1,0 +1,23 @@
+### Create a start time for a trajet
+POST http://localhost:4004/api/trajet-times
+Content-Type: application/json
+
+{
+  "trajetId": 1,
+  "startTime": "09:00"
+}
+
+### List start times for a trajet
+GET http://localhost:4004/api/trajet-times/by-trajet/1
+
+### Get a start time by id
+GET http://localhost:4004/api/trajet-times/1
+
+### Update a start time
+PUT http://localhost:4004/api/trajet-times/1?startTime=08:20
+
+### Delete a start time
+DELETE http://localhost:4004/api/trajet-times/1
+
+### Compute arrivals for a given start time
+GET http://localhost:4004/api/trajet-times/1/arrivals

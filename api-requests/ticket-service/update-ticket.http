@@ -1,0 +1,10 @@
+### Update Ticket (via API Gateway)
+@baseUrl = http://localhost:4004
+@id = 1
+
+PUT {{baseUrl}}/api/tickets/{{id}}
+Content-Type: application/json
+
+{
+  "description": "Updated description"
+}

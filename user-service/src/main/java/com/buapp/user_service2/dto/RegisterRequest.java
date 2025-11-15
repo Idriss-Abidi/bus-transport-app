@@ -1,6 +1,6 @@
-package com.buapp.user_service.dto;
+package com.buapp.user_service2.dto;
 
-import com.buapp.user_service.enums.UserRole;
+import com.buapp.user_service2.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

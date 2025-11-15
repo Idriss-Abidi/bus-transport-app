@@ -1,12 +1,12 @@
-package com.buapp.user_service.service;
+package com.buapp.user_service2.service;
 
-import com.buapp.user_service.dto.AuthResponse;
-import com.buapp.user_service.dto.LoginRequest;
-import com.buapp.user_service.dto.RegisterRequest;
-import com.buapp.user_service.dto.UserResponse;
-import com.buapp.user_service.enums.UserRole;
-import com.buapp.user_service.model.User;
-import com.buapp.user_service.repository.UserRepository;
+import com.buapp.user_service2.dto.AuthResponse;
+import com.buapp.user_service2.dto.LoginRequest;
+import com.buapp.user_service2.dto.RegisterRequest;
+import com.buapp.user_service2.dto.UserResponse;
+import com.buapp.user_service2.enums.UserRole;
+import com.buapp.user_service2.model.User;
+import com.buapp.user_service2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

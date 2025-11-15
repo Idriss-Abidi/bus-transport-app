@@ -1,0 +1,10 @@
+### Create Ticket (via API Gateway)
+@baseUrl = http://localhost:4004
+
+POST {{baseUrl}}/api/tickets
+Content-Type: application/json
+
+{
+  "trajetId": 2,
+  "description": "Optional description for the ticket 2"
+}

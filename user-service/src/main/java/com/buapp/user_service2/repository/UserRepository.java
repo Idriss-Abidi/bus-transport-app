@@ -1,6 +1,6 @@
-package com.buapp.user_service.repository;
+package com.buapp.user_service2.repository;
 
-import com.buapp.user_service.model.User;
+import com.buapp.user_service2.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

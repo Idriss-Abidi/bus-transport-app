@@ -1,0 +1,5 @@
+### Delete Ticket (via API Gateway)
+@baseUrl = http://localhost:4004
+@id = 1
+
+DELETE {{baseUrl}}/api/tickets/{{id}}
