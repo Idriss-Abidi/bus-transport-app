@@ -1,0 +1,24 @@
+### Create Abonnement (via API Gateway)
+@baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4009
+
+POST {{baseUrl}}/abonnements
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "cityId": 1,
+  "type": "MONTHLY",
+  "startDate": "2025-11-16"
+}
+
+### Direct to service (no gateway)
+# POST {{directUrl}}/abonnements
+# Content-Type: application/json
+#
+# {
+#   "userId": 1,
+#   "cityId": 1,
+#   "type": "MONTHLY",
+#   "startDate": "2025-11-16"
+# }

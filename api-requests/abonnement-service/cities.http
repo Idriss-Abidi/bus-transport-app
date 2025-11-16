@@ -1,0 +1,65 @@
+### List All Cities (via API Gateway)
+@baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4009
+
+GET {{baseUrl}}/abonnements/cities
+
+### Direct to service (no gateway)
+# GET {{directUrl}}/abonnements/cities
+
+###
+
+### Get City by ID (via API Gateway)
+@cityId = 1
+GET {{baseUrl}}/abonnements/cities/{{cityId}}
+
+### Direct to service (no gateway)
+# GET {{directUrl}}/abonnements/cities/{{cityId}}
+
+###
+
+### Create City - Casablanca (via API Gateway)
+POST {{baseUrl}}/abonnements/cities
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Casablanca",
+  "monthlyPriceNormal": 150.0,
+  "yearlyPriceNormal": 1500.0
+}
+
+###
+
+### Create City - Rabat
+POST {{baseUrl}}/abonnements/cities
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Rabat",
+  "monthlyPriceNormal": 120.0,
+  "yearlyPriceNormal": 1200.0
+}
+
+###
+
+### Create City - Marrakech
+POST {{baseUrl}}/abonnements/cities
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "Marrakech",
+  "monthlyPriceNormal": 130.0,
+  "yearlyPriceNormal": 1300.0
+}
+
+###
+
+### Delete City (via API Gateway)
+@deleteCityId = 1
+DELETE {{baseUrl}}/abonnements/cities/{{deleteCityId}}
+
+### Direct to service (no gateway)
+# DELETE {{directUrl}}/abonnements/cities/{{deleteCityId}}

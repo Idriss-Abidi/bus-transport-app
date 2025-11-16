@@ -1,11 +1,22 @@
-### Create User (via API Gateway)
+### Create User (Register via API Gateway)
 @baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4005
 
-POST {{baseUrl}}/users
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "username": "jdoe",
+  "name": "John Doe",
   "email": "jdoe@example.com",
-  "fullName": "John Doe"
+  "password": "password123"
 }
+
+### Direct to service (no gateway)
+# POST {{directUrl}}/auth/register
+# Content-Type: application/json
+#
+# {
+#   "name": "John Doe",
+#   "email": "jdoe@example.com",
+#   "password": "password123"
+# }

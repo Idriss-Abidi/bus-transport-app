@@ -14,7 +14,7 @@
     <artifactId>user-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>user-service</name>
-    <description>User service (simple CRUD)</description>
+    <description>User service</description>
 
     <properties>
         <java.version>21</java.version>

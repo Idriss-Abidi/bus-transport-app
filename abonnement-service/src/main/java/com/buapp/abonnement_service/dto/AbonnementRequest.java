@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class AbonnementRequest {
-    private String userEmail;
+    private Long userId;
     private Long cityId;
     private AbonnementType type; // MONTHLY ou YEARLY
     private LocalDate startDate; // facultatif

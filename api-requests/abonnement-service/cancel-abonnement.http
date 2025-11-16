@@ -1,0 +1,9 @@
+### Cancel Abonnement (via API Gateway)
+@baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4009
+@abonnementId = 1
+
+DELETE {{baseUrl}}/abonnements/{{abonnementId}}
+
+### Direct to service (no gateway)
+# DELETE {{directUrl}}/abonnements/{{abonnementId}}
