@@ -24,11 +24,10 @@ public class Abonnement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userEmail;
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private AbonnementType type; // MONTHLY or YEARLY
-
 
     private LocalDate startDate;
     private LocalDate endDate;

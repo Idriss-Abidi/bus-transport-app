@@ -1,0 +1,156 @@
+### User Service - All Endpoints Test File
+### Base URLs
+@baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4005
+
+###############################################
+### AUTHENTICATION ENDPOINTS (/auth)
+###############################################
+
+### 1. Register New User
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe1",
+  "email": "jdoe1@example.com",
+  "password": "password123"
+}
+
+### 1b. Register New User (Direct to service)
+# POST {{directUrl}}/auth/register
+# Content-Type: application/json
+#
+# {
+#   "name": "John Doe",
+#   "email": "jdoe@example.com",
+#   "password": "password123"
+# }
+
+###
+
+### 2. Login User
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jdoe@example.com",
+  "password": "password123"
+}
+
+### 2b. Login User (Direct to service)
+# POST {{directUrl}}/auth/login
+# Content-Type: application/json
+#
+# {
+#   "email": "jdoe@example.com",
+#   "password": "password123"
+# }
+
+###
+
+###############################################
+### USER ENDPOINTS (/users)
+###############################################
+
+### 3. List All Users
+GET {{baseUrl}}/users
+
+### 3b. List All Users (Direct to service)
+# GET {{directUrl}}/users
+
+###
+
+### 4. Get User by ID
+@userId = 1
+GET {{baseUrl}}/users/{{userId}}
+
+### 4b. Get User by ID (Direct to service)
+# GET {{directUrl}}/users/{{userId}}
+
+###
+
+###############################################
+### ADMIN ENDPOINTS (/admin)
+###############################################
+
+### 5. Promote User to Admin
+@callerId = 1
+@targetId = 2
+POST {{baseUrl}}/admin/promote/{{callerId}}/{{targetId}}
+
+### 5b. Promote User to Admin (Direct to service)
+# POST {{directUrl}}/admin/promote/{{callerId}}/{{targetId}}
+
+###
+
+### 6. Check if User is Admin
+@checkUserId = 1
+GET {{baseUrl}}/admin/is-admin/{{checkUserId}}
+
+### 6b. Check if User is Admin (Direct to service)
+# GET {{directUrl}}/admin/is-admin/{{checkUserId}}
+
+###
+
+###############################################
+### COMPLETE TEST FLOW EXAMPLE
+###############################################
+
+### Step 1: Register first user (will be admin)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "admin@example.com",
+  "password": "admin123"
+}
+
+###
+
+### Step 2: Register second user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Regular User",
+  "email": "user@example.com",
+  "password": "user123"
+}
+
+###
+
+### Step 3: Login as admin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin123"
+}
+
+###
+
+### Step 4: Get all users
+GET {{baseUrl}}/users
+
+###
+
+### Step 5: Get specific user by ID
+GET {{baseUrl}}/users/1
+
+###
+
+### Step 6: Check if user 1 is admin
+GET {{baseUrl}}/admin/is-admin/1
+
+###
+
+### Step 7: Promote user 2 to admin (caller=1, target=2)
+POST {{baseUrl}}/admin/promote/1/2
+
+###
+
+### Step 8: Verify user 2 is now admin
+GET {{baseUrl}}/admin/is-admin/2

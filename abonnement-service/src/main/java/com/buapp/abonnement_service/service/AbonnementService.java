@@ -8,6 +8,8 @@ import com.buapp.abonnement_service.enums.AbonnementType;
 import com.buapp.abonnement_service.repository.AbonnementRepository;
 import com.buapp.abonnement_service.repository.CityRepository;
 import lombok.RequiredArgsConstructor;
+import com.buapp.abonnement_service.kafka.AbonnementEvent;
+import com.buapp.abonnement_service.kafka.KafkaProducer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ public class AbonnementService {
 
     private final AbonnementRepository abonnementRepository;
     private final CityRepository cityRepository;
+        private final KafkaProducer kafkaProducer;
 
     @Transactional
     public AbonnementResponse createAbonnement(AbonnementRequest request) {
@@ -32,7 +35,7 @@ public class AbonnementService {
                 : startDate.plusYears(1);
 
         Abonnement abonnement = Abonnement.builder()
-                .userEmail(request.getUserEmail())
+                .userId(request.getUserId())
                 .city(city)
                 .type(request.getType())
                 .startDate(startDate)
@@ -41,9 +44,20 @@ public class AbonnementService {
 
         abonnement = abonnementRepository.save(abonnement);
 
+        // Publish Kafka event for notification-service
+        AbonnementEvent event = AbonnementEvent.builder()
+                .abonnementId(abonnement.getId())
+                .userId(abonnement.getUserId())
+                .userName(null) // Can be enriched by notification service if needed
+                .type(abonnement.getType())
+                .startDate(abonnement.getStartDate())
+                .endDate(abonnement.getEndDate())
+                .build();
+        kafkaProducer.sendEvent(event);
+
         return AbonnementResponse.builder()
                 .id(abonnement.getId())
-                .userEmail(abonnement.getUserEmail())
+                .userId(abonnement.getUserId())
                 .type(abonnement.getType())
                 .startDate(abonnement.getStartDate())
                 .endDate(abonnement.getEndDate())
@@ -58,12 +72,12 @@ public class AbonnementService {
         abonnementRepository.delete(abonnement);
     }
 
-    public List<AbonnementResponse> getAbonnementsForUser(String userEmail) {
-        return abonnementRepository.findByUserEmail(userEmail)
+    public List<AbonnementResponse> getAbonnementsForUser(Long userId) {
+        return abonnementRepository.findByUserId(userId)
                 .stream()
                 .map(ab -> AbonnementResponse.builder()
                         .id(ab.getId())
-                        .userEmail(ab.getUserEmail())
+                        .userId(ab.getUserId())
                         .type(ab.getType())
                         .startDate(ab.getStartDate())
                         .endDate(ab.getEndDate())

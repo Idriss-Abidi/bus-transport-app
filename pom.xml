@@ -20,7 +20,6 @@
     </licenses>
 
     <modules>
-        <module>abonnement-service</module>
     </modules>
     <scm>
         <connection/>

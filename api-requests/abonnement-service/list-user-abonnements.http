@@ -1,0 +1,9 @@
+### Get User Abonnements (via API Gateway)
+@baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4009
+@userId = 1
+
+GET {{baseUrl}}/abonnements/user/{{userId}}
+
+### Direct to service (no gateway)
+# GET {{directUrl}}/abonnements/user/{{userId}}

@@ -1,12 +1,19 @@
 ### Base URL via API Gateway (Docker)
 @baseUrl = http://localhost:4004/api
+@directUrl = http://localhost:4010
 
 ### List notifications
 GET {{baseUrl}}/notifications
 
+### Direct to service (no gateway)
+# GET {{directUrl}}/notifications
+
 ### Get notification by id
 @id = 1
 GET {{baseUrl}}/notifications/{{id}}
+
+### Direct to service (no gateway)
+# GET {{directUrl}}/notifications/{{id}}
 
 ### Create notification (admin/test)
 POST {{baseUrl}}/notifications
@@ -37,3 +44,20 @@ Content-Type: application/json
 
 ### Delete notification (admin/test)
 DELETE {{baseUrl}}/notifications/{{id}}
+
+###
+### ABONNEMENT NOTIFICATIONS
+###
+
+### List all abonnement notifications
+GET {{baseUrl}}/abonnement-notifications
+
+### Direct to service (no gateway)
+# GET {{directUrl}}/abonnement-notifications
+
+### Get abonnement notification by id
+@abonnementNotificationId = 1
+GET {{baseUrl}}/abonnement-notifications/{{abonnementNotificationId}}
+
+### Direct to service (no gateway)
+# GET {{directUrl}}/abonnement-notifications/{{abonnementNotificationId}}

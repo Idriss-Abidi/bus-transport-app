@@ -10,6 +10,7 @@ volumes:
   ticket-db-data:
   user-db-data:
   notification-db-data:
+  abonnement-db-data:
 
 services:
   # Kafka broker (Bitnami Legacy Kafka 4.0.0)
@@ -92,6 +93,21 @@ services:
     networks:
       - internal
 
+  abonnement-db:
+    image: postgres:16-alpine
+    container_name: abonnement-db
+    environment:
+      POSTGRES_DB: abonnementdb
+      POSTGRES_USER: abonnement
+      POSTGRES_PASSWORD: abonnement
+      TZ: "UTC"
+    volumes:
+      - abonnement-db-data:/var/lib/postgresql/data
+    ports:
+      - "5004:5432"
+    networks:
+      - internal
+
   # Application services
   trajet-service:
     build:
@@ -159,6 +175,28 @@ services:
     ports:
       - "4005:4005"
 
+  abonnement-service:
+    build:
+      context: ./abonnement-service
+      dockerfile: Dockerfile
+    image: abonnement-service:latest
+    container_name: abonnement-service
+    depends_on:
+      - abonnement-db
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://abonnement-db:5432/abonnementdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: abonnement
+      SPRING_DATASOURCE_PASSWORD: abonnement
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TZ: "UTC"
+    networks:
+      - internal
+    ports:
+      - "4009:4009"
+
   api-gateway:
     build:
       context: ./api-gateway
@@ -169,6 +207,7 @@ services:
       - ticket-service
       - user-service
       - notification-service
+      - abonnement-service
     ports:
       - "4004:4004"
     environment:

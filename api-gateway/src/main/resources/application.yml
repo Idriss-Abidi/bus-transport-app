@@ -81,6 +81,22 @@ spring:
           filters:
             - StripPrefix=1
 
+        # Route for /api/auth/** to user-service (login, register)
+        - id: auth-service-route
+          uri: http://user-service:4005
+          predicates:
+            - Path=/api/auth,/api/auth/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/admin/** to user-service (admin operations)
+        - id: admin-service-route
+          uri: http://user-service:4005
+          predicates:
+            - Path=/api/admin,/api/admin/**
+          filters:
+            - StripPrefix=1
+
         # Route for /api/docs/users -> /v3/api-docs on user-service
         - id: api-docs-user-route
           uri: http://user-service:4005
@@ -89,11 +105,27 @@ spring:
           filters:
             - RewritePath=/api-docs/users,/v3/api-docs
 
-        # Route for /api/notifications/** to notification-service
+        # Route for /api/abonnements/** to abonnement-service (includes /abonnements/cities)
+        - id: abonnement-service-route
+          uri: http://abonnement-service:4009
+          predicates:
+            - Path=/api/abonnements,/api/abonnements/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/docs/abonnements -> /v3/api-docs on abonnement-service
+        - id: api-docs-abonnement-route
+          uri: http://abonnement-service:4009
+          predicates:
+            - Path=/api-docs/abonnements
+          filters:
+            - RewritePath=/api-docs/abonnements,/v3/api-docs
+
+        # Route for /api/notifications/** and /api/abonnement-notifications/** to notification-service
         - id: notification-service-route
           uri: http://notification-service:4010
           predicates:
-            - Path=/api/notifications,/api/notifications/**
+            - Path=/api/notifications,/api/notifications/**,/api/abonnement-notifications,/api/abonnement-notifications/**
           filters:
             - StripPrefix=1
 
