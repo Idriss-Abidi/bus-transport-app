@@ -30,6 +30,15 @@ public class AbonnementService {
         City city = cityRepository.findById(request.getCityId())
                 .orElseThrow(() -> new RuntimeException("City not found"));
 
+        // Deactivate all previous active abonnements for this user
+        List<Abonnement> activeAbonnements = abonnementRepository.findByUserId(request.getUserId());
+        activeAbonnements.forEach(ab -> {
+            if (ab.getActive() != null && ab.getActive()) {
+                ab.setActive(false);
+                abonnementRepository.save(ab);
+            }
+        });
+
         LocalDate startDate = request.getStartDate() != null ? request.getStartDate() : LocalDate.now();
         LocalDate endDate = request.getType() == AbonnementType.MONTHLY ? startDate.plusMonths(1)
                 : startDate.plusYears(1);
@@ -40,6 +49,7 @@ public class AbonnementService {
                 .type(request.getType())
                 .startDate(startDate)
                 .endDate(endDate)
+                .active(true)
                 .build();
 
         abonnement = abonnementRepository.save(abonnement);
@@ -61,6 +71,7 @@ public class AbonnementService {
                 .type(abonnement.getType())
                 .startDate(abonnement.getStartDate())
                 .endDate(abonnement.getEndDate())
+                .active(abonnement.getActive())
                 .city(abonnement.getCity())
                 .build();
     }
@@ -81,6 +92,7 @@ public class AbonnementService {
                         .type(ab.getType())
                         .startDate(ab.getStartDate())
                         .endDate(ab.getEndDate())
+                        .active(ab.getActive())
                         .city(ab.getCity())
                         .build())
                 .collect(Collectors.toList());

@@ -36,5 +36,11 @@ public class StationController {
     public ResponseEntity<StationResponseDTO> updateStation(@PathVariable Long id, @Valid @RequestBody StationRequestDTO dto) {
         StationResponseDTO stationResponseDTO = stationService.updateStation(id, dto);
         return ResponseEntity.ok().body(stationResponseDTO);
-        }
+    }
+
+    @GetMapping("/city/{cityId}")
+    @Operation(summary = "Get all stations by city ID")
+    public List<StationResponseDTO> getStationsByCity(@PathVariable Long cityId) {
+        return stationService.getStationsByCity(cityId);
+    }
 }

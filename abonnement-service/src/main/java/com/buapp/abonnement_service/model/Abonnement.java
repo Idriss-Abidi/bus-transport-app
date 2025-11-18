@@ -32,6 +32,9 @@ public class Abonnement {
     private LocalDate startDate;
     private LocalDate endDate;
 
+    @Builder.Default
+    private Boolean active = true;
+
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;

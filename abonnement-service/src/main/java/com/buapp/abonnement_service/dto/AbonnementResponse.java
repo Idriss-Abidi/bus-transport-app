@@ -17,5 +17,6 @@ public class AbonnementResponse {
     private AbonnementType type;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Boolean active;
     private City city;
 }
