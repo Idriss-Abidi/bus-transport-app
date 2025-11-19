@@ -136,3 +136,19 @@ spring:
             - Path=/api-docs/notifications
           filters:
             - RewritePath=/api-docs/notifications,/v3/api-docs
+
+        # Route for /api/payments/** to payment-service
+        - id: payment-service-route
+          uri: http://payment-service:4011
+          predicates:
+            - Path=/api/payments,/api/payments/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/docs/payments -> /v3/api-docs on payment-service
+        - id: api-docs-payment-route
+          uri: http://payment-service:4011
+          predicates:
+            - Path=/api-docs/payments
+          filters:
+            - RewritePath=/api-docs/payments,/v3/api-docs

@@ -11,6 +11,7 @@ volumes:
   user-db-data:
   notification-db-data:
   abonnement-db-data:
+  payment-db-data:
 
 services:
   # Kafka broker (Bitnami Legacy Kafka 4.0.0)
@@ -108,6 +109,21 @@ services:
     networks:
       - internal
 
+  payment-db:
+    image: postgres:16-alpine
+    container_name: payment-db
+    environment:
+      POSTGRES_DB: paymentdb
+      POSTGRES_USER: payment
+      POSTGRES_PASSWORD: payment
+      TZ: "UTC"
+    volumes:
+      - payment-db-data:/var/lib/postgresql/data
+    ports:
+      - "5005:5432"
+    networks:
+      - internal
+
   # Application services
   trajet-service:
     build:
@@ -197,6 +213,29 @@ services:
     ports:
       - "4009:4009"
 
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    image: payment-service:latest
+    container_name: payment-service
+    depends_on:
+      - payment-db
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-db:5432/paymentdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: payment
+      SPRING_DATASOURCE_PASSWORD: payment
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      STRIPE_API_KEY: 
+      STRIPE_WEBHOOK_SECRET: 
+      TZ: "UTC"
+    networks:
+      - internal
+    ports:
+      - "4011:4011"
+
   api-gateway:
     build:
       context: ./api-gateway
@@ -208,6 +247,7 @@ services:
       - user-service
       - notification-service
       - abonnement-service
+      - payment-service
     ports:
       - "4004:4004"
     environment:
