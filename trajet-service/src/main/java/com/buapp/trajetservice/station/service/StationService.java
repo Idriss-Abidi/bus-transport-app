@@ -37,7 +37,14 @@ public class StationService {
         Station station = stationRepository.findById(id)
                 .orElseThrow(() -> new StationNotFoundException("Station not found"));
         station.setNom(dto.getNom());
+        station.setCityId(dto.getCityId());
         stationRepository.save(station);
         return stationMapper.toDTO(station);
+    }
+
+    public List<StationResponseDTO> getStationsByCity(Long cityId) {
+        return stationRepository.findByCityId(cityId).stream()
+                .map(stationMapper::toDTO)
+                .toList();
     }
 }

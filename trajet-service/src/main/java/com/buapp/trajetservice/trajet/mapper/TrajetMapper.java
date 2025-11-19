@@ -24,8 +24,8 @@ public class TrajetMapper {
         public Trajet toEntity(TrajetRequestDTO dto, List<Station> stations, TrajetCity city) {
         Trajet trajet = Trajet.builder()
                                         .nomTrajet(dto.getNomTrajet())
-                .source(dto.getSource())
-                .destination(dto.getDestination())
+                .sourceStationId(dto.getSourceStationId())
+                .destinationStationId(dto.getDestinationStationId())
                 .dureeEstimee(dto.getDureeEstimee())
                 .build();
         trajet.setCity(city);
@@ -63,11 +63,26 @@ public class TrajetMapper {
                 .map(ts -> ts.getStation().getNom())
                 .collect(Collectors.toList());
 
+        // Find source and destination station names
+        String sourceStationName = trajet.getTrajetStations().stream()
+                .filter(ts -> ts.getStation().getId().equals(trajet.getSourceStationId()))
+                .findFirst()
+                .map(ts -> ts.getStation().getNom())
+                .orElse(null);
+                
+        String destinationStationName = trajet.getTrajetStations().stream()
+                .filter(ts -> ts.getStation().getId().equals(trajet.getDestinationStationId()))
+                .findFirst()
+                .map(ts -> ts.getStation().getNom())
+                .orElse(null);
+
         TrajetResponseDTO.TrajetResponseDTOBuilder builder = TrajetResponseDTO.builder()
                 .id(trajet.getId())
                 .nomTrajet(trajet.getNomTrajet())
-                .source(trajet.getSource())
-                .destination(trajet.getDestination())
+                .sourceStationId(trajet.getSourceStationId())
+                .source(sourceStationName)
+                .destinationStationId(trajet.getDestinationStationId())
+                .destination(destinationStationName)
         .cityId(trajet.getCity() != null ? trajet.getCity().getId() : null)
                 .dureeEstimee(trajet.getDureeEstimee())
                 .stationNames(stationNames);

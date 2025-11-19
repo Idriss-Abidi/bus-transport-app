@@ -3,16 +3,21 @@ POST http://localhost:4004/api/stations
 Content-Type: application/json
 
 {
-  "nom": "Station C"
+  "nom": "Station C",
+  "cityId": 1
 }
 
-### List stations
+### List all stations
 GET http://localhost:4004/api/stations
+
+### Get stations by city
+GET http://localhost:4004/api/stations/city/1
 
 ### Update station
 PUT http://localhost:4004/api/stations/1
 Content-Type: application/json
 
 {
-  "nom": "Station A (updated)"
+  "nom": "Station A (updated)",
+  "cityId": 1
 }

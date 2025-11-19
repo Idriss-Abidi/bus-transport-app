@@ -12,4 +12,7 @@ import lombok.*;
 public class StationRequestDTO {
     @NotBlank(message = "Le nom de la station ne peut pas être nul")
     private String nom;
+    
+    @NotNull(message = "Le cityId ne peut pas être nul")
+    private Long cityId;
 }

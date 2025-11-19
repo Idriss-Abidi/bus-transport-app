@@ -10,6 +10,7 @@ public class StationMapper {
     public Station toEntity(StationRequestDTO dto) {
         return Station.builder()
                 .nom(dto.getNom())
+                .cityId(dto.getCityId())
                 .build();
     }
 
@@ -17,6 +18,7 @@ public class StationMapper {
         return StationResponseDTO.builder()
                 .id(station.getId())
                 .nom(station.getNom())
+                .cityId(station.getCityId())
                 .build();
     }
 }

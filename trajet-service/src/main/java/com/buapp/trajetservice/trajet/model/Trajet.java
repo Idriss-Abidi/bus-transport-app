@@ -20,11 +20,11 @@ public class Trajet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String source;
+    @Column(name = "source_station_id", nullable = false)
+    private Long sourceStationId;
 
-    @Column(nullable = false)
-    private String destination;
+    @Column(name = "destination_station_id", nullable = false)
+    private Long destinationStationId;
 
     // Nouveau attribut: nom du trajet (exposé aux autres services)
     @Column(name = "nom_trajet", nullable = false)

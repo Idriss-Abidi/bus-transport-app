@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "nomTrajet": "Ligne A",
-  "source": "Station A",
-  "destination": "Station B",
+  "sourceStationId": 1,
+  "destinationStationId": 2,
   "cityId": 1,
   "dureeEstimee": "PT45M",
   "stationIds": [1,2],

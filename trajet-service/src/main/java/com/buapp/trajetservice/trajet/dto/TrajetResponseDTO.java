@@ -13,7 +13,9 @@ public class TrajetResponseDTO {
     private Long id;
         // Exposing nomTrajet for ticket-service consumption
         private String nomTrajet;
+    private Long sourceStationId;
     private String source;
+    private Long destinationStationId;
     private String destination;
     private Long cityId;
     private Duration dureeEstimee;
