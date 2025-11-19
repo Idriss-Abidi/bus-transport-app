@@ -21,6 +21,9 @@ public class Station {
     @Column(nullable = false)
     private String nom;
 
+    @Column(name = "city_id")
+    private Long cityId;
+
     @OneToMany(mappedBy = "station", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrajetStation> trajetStations;
 }

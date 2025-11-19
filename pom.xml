@@ -19,10 +19,6 @@
         <license/>
     </licenses>
 
-    <modules>
-        <module>abonnement-service</module>
-        <module>geolocalisation-service</module>
-    </modules>
     <scm>
         <connection/>
         <developerConnection/>

@@ -14,10 +14,10 @@ import java.util.List;
 public class TrajetRequestDTO {
     @NotBlank(message = "Le nom du trajet ne peut pas être nul")
     private String nomTrajet;
-    @NotBlank(message = "La source du trajet ne peut pas être nulle")
-    private String source;
-    @NotBlank(message = "La destination du trajet ne peut pas être nulle")
-    private String destination;
+    @NotNull(message = "La station source ne peut pas être nulle")
+    private Long sourceStationId;
+    @NotNull(message = "La station destination ne peut pas être nulle")
+    private Long destinationStationId;
     @NotNull(message = "La ville du trajet ne peut pas être nulle")
     private Long cityId;
     @NotNull(message = "La durée estimée du trajet ne peut pas être nulle")

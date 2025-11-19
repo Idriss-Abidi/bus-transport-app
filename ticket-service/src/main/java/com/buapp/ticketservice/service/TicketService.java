@@ -242,9 +242,11 @@ public class TicketService {
             }
             var node = resp.getBody();
             String name = null;
-            if (node.hasNonNull("name")) name = node.get("name").asText();
-            else if (node.hasNonNull("fullName")) name = node.get("fullName").asText();
-            else if (node.hasNonNull("username")) name = node.get("username").asText();
+            // Prefer fullName -> username -> name -> nom
+            if (node.hasNonNull("fullName")) name = node.get("fullName").asText();
+            if ((name == null || name.isBlank()) && node.hasNonNull("username")) name = node.get("username").asText();
+            if ((name == null || name.isBlank()) && node.hasNonNull("name")) name = node.get("name").asText();
+            if ((name == null || name.isBlank()) && node.hasNonNull("nom")) name = node.get("nom").asText();
             if (name == null || name.isBlank()) name = "user-" + userId;
             return name;
         } catch (org.springframework.web.client.HttpClientErrorException.NotFound e) {

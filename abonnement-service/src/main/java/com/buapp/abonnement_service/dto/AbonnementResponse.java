@@ -13,9 +13,10 @@ import java.time.LocalDate;
 @Builder
 public class AbonnementResponse {
     private Long id;
-    private String userEmail;
+    private Long userId;
     private AbonnementType type;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Boolean active;
     private City city;
 }

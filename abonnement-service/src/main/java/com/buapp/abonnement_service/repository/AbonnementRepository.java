@@ -9,5 +9,5 @@ import java.util.List;
  * @author DELL
  **/
 public interface AbonnementRepository extends JpaRepository<Abonnement,Long> {
-    List<Abonnement> findByUserEmail(String userEmail);
+    List<Abonnement> findByUserId(Long userId);
 }

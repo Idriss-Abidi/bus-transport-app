@@ -12,4 +12,6 @@ public interface StationRepository extends JpaRepository<Station, Long> {
 //    List<Station> findByTrajetId(Long trajetId);
     @Query("SELECT s FROM Station s JOIN s.trajetStations ts WHERE ts.trajet.id = :trajetId ORDER BY ts.ordreDansTrajet ASC")
     List<Station> findByTrajetId(@Param("trajetId") Long trajetId);
+    
+    List<Station> findByCityId(Long cityId);
 }

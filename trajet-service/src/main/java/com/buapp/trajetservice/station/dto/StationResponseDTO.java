@@ -10,4 +10,5 @@ import lombok.*;
 public class StationResponseDTO {
     private Long id;
     private String nom;
+    private Long cityId;
 }
