@@ -1,0 +1,70 @@
+### Create Payment for Ticket
+POST http://localhost:4004/api/payments
+Content-Type: application/json
+
+{
+  "type": "TICKET",
+  "referenceId": 1,
+  "userId": 1,
+  "amount": 15.50,
+  "currency": "USD"
+}
+
+### Create Payment for Abonnement
+POST http://localhost:4004/api/payments
+Content-Type: application/json
+
+{
+  "type": "ABONNEMENT",
+  "referenceId": 1,
+  "userId": 1,
+  "amount": 50.00,
+  "currency": "USD"
+}
+
+### Get Payment by ID
+GET http://localhost:4004/api/payments/1
+
+### Get Payments by User ID
+GET http://localhost:4004/api/payments/user/1
+
+### Stripe Webhook (Payment Success) - For Testing Only
+### Note: In production, this endpoint receives requests from Stripe with proper signature
+POST http://localhost:4004/api/payments/webhook
+Content-Type: application/json
+stripe-signature: test_signature
+
+{
+  "id": "evt_test_webhook",
+  "object": "event",
+  "type": "payment_intent.succeeded",
+  "data": {
+    "object": {
+      "id": "pi_test_123",
+      "object": "payment_intent",
+      "amount": 1550,
+      "currency": "usd",
+      "status": "succeeded"
+    }
+  }
+}
+
+### Stripe Webhook (Payment Failed) - For Testing Only
+POST http://localhost:4004/api/payments/webhook
+Content-Type: application/json
+stripe-signature: test_signature
+
+{
+  "id": "evt_test_webhook_failed",
+  "object": "event",
+  "type": "payment_intent.payment_failed",
+  "data": {
+    "object": {
+      "id": "pi_test_456",
+      "object": "payment_intent",
+      "amount": 5000,
+      "currency": "usd",
+      "status": "requires_payment_method"
+    }
+  }
+}
