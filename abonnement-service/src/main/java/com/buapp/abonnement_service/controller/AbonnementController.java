@@ -38,4 +38,14 @@ public class AbonnementController {
         List<AbonnementResponse> abonnements = abonnementService.getAbonnementsForUser(userId);
         return ResponseEntity.ok(abonnements);
     }
+
+    @GetMapping("/user/{userId}/current")
+    @Operation(summary = "Get current active abonnement", description = "Get the current active abonnement for a user")
+    public ResponseEntity<AbonnementResponse> getCurrentAbonnement(@PathVariable Long userId) {
+        AbonnementResponse abonnement = abonnementService.getCurrentAbonnement(userId);
+        if (abonnement == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(abonnement);
+    }
 }

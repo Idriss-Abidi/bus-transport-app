@@ -80,7 +80,8 @@ public class AbonnementService {
     public void cancelAbonnement(Long abonnementId) {
         Abonnement abonnement = abonnementRepository.findById(abonnementId)
                 .orElseThrow(() -> new RuntimeException("Abonnement not found"));
-        abonnementRepository.delete(abonnement);
+        abonnement.setActive(false);
+        abonnementRepository.save(abonnement);
     }
 
     public List<AbonnementResponse> getAbonnementsForUser(Long userId) {
@@ -96,5 +97,22 @@ public class AbonnementService {
                         .city(ab.getCity())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public AbonnementResponse getCurrentAbonnement(Long userId) {
+        return abonnementRepository.findByUserId(userId)
+                .stream()
+                .filter(ab -> ab.getActive() != null && ab.getActive())
+                .findFirst()
+                .map(ab -> AbonnementResponse.builder()
+                        .id(ab.getId())
+                        .userId(ab.getUserId())
+                        .type(ab.getType())
+                        .startDate(ab.getStartDate())
+                        .endDate(ab.getEndDate())
+                        .active(ab.getActive())
+                        .city(ab.getCity())
+                        .build())
+                .orElse(null);
     }
 }

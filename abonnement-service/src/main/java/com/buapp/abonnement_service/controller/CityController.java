@@ -36,8 +36,21 @@ public class CityController {
     @PostMapping
     @Operation(summary = "Create city", description = "Create a new city")
     public ResponseEntity<City> createCity(@RequestBody City city) {
+        city.calculateYearlyPrice();
         City savedCity = cityRepository.save(city);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCity);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update city", description = "Update an existing city")
+    public ResponseEntity<City> updateCity(@PathVariable Long id, @RequestBody City city) {
+        if (!cityRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        city.setId(id);
+        city.calculateYearlyPrice();
+        City updatedCity = cityRepository.save(city);
+        return ResponseEntity.ok(updatedCity);
     }
 
     @DeleteMapping("/{id}")

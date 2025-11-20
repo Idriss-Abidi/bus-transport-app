@@ -262,6 +262,12 @@ services:
     image: notification-service:latest
     container_name: notification-service
     environment:
+      # Database connection
+      SPRING_DATASOURCE_URL: jdbc:postgresql://notification-db:5432/notificationdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: notification
+      SPRING_DATASOURCE_PASSWORD: notification
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       # Kafka config (Spring Boot property)
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       ACHAT_CREATED_TOPIC: ticket
