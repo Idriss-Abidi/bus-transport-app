@@ -21,6 +21,11 @@ public class City {
 
     private double yearlyPriceNormal;
 
-
+    /**
+     * Calculates and sets the yearly price as 10.5 times the monthly price
+     */
+    public void calculateYearlyPrice() {
+        this.yearlyPriceNormal = this.MonthlyPriceNormal * 10.5;
+    }
 }
 
