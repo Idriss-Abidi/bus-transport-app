@@ -12,6 +12,8 @@ volumes:
   notification-db-data:
   abonnement-db-data:
   payment-db-data:
+  geolocalisation-db-data:
+  redis-data:
 
 services:
   # Kafka broker (Bitnami Legacy Kafka 4.0.0)
@@ -228,8 +230,8 @@ services:
       SPRING_DATASOURCE_USERNAME: payment
       SPRING_DATASOURCE_PASSWORD: payment
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      STRIPE_API_KEY: 
-      STRIPE_WEBHOOK_SECRET: 
+      STRIPE_API_KEY: sk_test_51SUwipIoRR1TvgIGNgdBjKMB5GQFWSFEwwc01kCQG2IeVC33SPlb8ZDWHQY3f6L67NKIR4Fc7mBfd4iM67XLBUg100IeeNX84b
+      STRIPE_WEBHOOK_SECRET: pk_test_51SUwipIoRR1TvgIGi3LZRpPQUZyTPHHprp4mu9zDpMa7bSUpbrXIjgApdPIn5pwdCat7duGJZpEqvihT4FHjtHgd00d4qrcMQG
       TZ: "UTC"
     networks:
       - internal
@@ -248,6 +250,7 @@ services:
       - notification-service
       - abonnement-service
       - payment-service
+      - geolocalisation-service
     ports:
       - "4004:4004"
     environment:
@@ -273,3 +276,55 @@ services:
       - internal
     ports:
       - "4010:4010"
+
+  # Geolocalisation Database
+  geolocalisation-db:
+    image: postgres:16-alpine
+    container_name: geolocalisation-db
+    environment:
+      POSTGRES_DB: busdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: "UTC"
+    volumes:
+      - geolocalisation-db-data:/var/lib/postgresql/data
+    ports:
+      - "5006:5432"
+    networks:
+      - internal
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - internal
+
+  # Geolocalisation Service
+  geolocalisation-service:
+    build:
+      context: ./geolocalisation-service
+      dockerfile: Dockerfile
+    image: geolocalisation-service:latest
+    container_name: geolocalisation-service
+    depends_on:
+      - geolocalisation-db
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://geolocalisation-db:5432/busdb
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      TZ: "UTC"
+    networks:
+      - internal
+    ports:
+      - "8080:8080"
