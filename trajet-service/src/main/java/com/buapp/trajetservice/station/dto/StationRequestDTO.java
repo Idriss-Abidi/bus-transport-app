@@ -15,4 +15,7 @@ public class StationRequestDTO {
     
     @NotNull(message = "Le cityId ne peut pas être nul")
     private Long cityId;
+
+    private Double latitude;
+    private Double longitude;
 }

@@ -27,6 +27,8 @@ public class TrajetStationMapper {
                 .stationName(entity.getStation().getNom())
                 .ordreDansTrajet(entity.getOrdreDansTrajet())
                 .estimatedMinutes(entity.getEstimatedMinutes())
+                .latitude(entity.getStation().getLatitude())
+                .longitude(entity.getStation().getLongitude())
                 .build();
     }
 }

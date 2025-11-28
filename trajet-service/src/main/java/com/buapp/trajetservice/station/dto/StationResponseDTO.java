@@ -11,4 +11,6 @@ public class StationResponseDTO {
     private Long id;
     private String nom;
     private Long cityId;
+    private Double latitude;
+    private Double longitude;
 }

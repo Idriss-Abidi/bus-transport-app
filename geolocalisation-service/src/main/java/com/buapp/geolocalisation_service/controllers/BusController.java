@@ -14,6 +14,13 @@ import java.util.List;
 public class BusController {
 
     private final BusService busService;
+    private final com.buapp.geolocalisation_service.services.SimulationService simulationService;
+
+    @PostMapping("/{id}/simulate")
+    public ResponseEntity<Void> simulateBus(@PathVariable Long id) {
+        simulationService.startSimulation(id);
+        return ResponseEntity.accepted().build();
+    }
 
     @PostMapping
     public ResponseEntity<Bus> createBus(@RequestBody Bus bus) {

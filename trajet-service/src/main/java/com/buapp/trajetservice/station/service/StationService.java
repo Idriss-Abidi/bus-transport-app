@@ -38,6 +38,8 @@ public class StationService {
                 .orElseThrow(() -> new StationNotFoundException("Station not found"));
         station.setNom(dto.getNom());
         station.setCityId(dto.getCityId());
+        station.setLatitude(dto.getLatitude());
+        station.setLongitude(dto.getLongitude());
         stationRepository.save(station);
         return stationMapper.toDTO(station);
     }

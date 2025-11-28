@@ -152,3 +152,18 @@ spring:
             - Path=/api-docs/payments
           filters:
             - RewritePath=/api-docs/payments,/v3/api-docs
+
+        # Route for /api/buses/** and /api/location/** to geolocalisation-service
+        - id: geolocalisation-service-route
+          uri: http://geolocalisation-service:8080
+          predicates:
+            - Path=/api/buses,/api/buses/**,/api/location,/api/location/**
+          filters: []
+
+        # Route for /api/docs/geolocalisation -> /v3/api-docs on geolocalisation-service
+        - id: api-docs-geolocalisation-route
+          uri: http://geolocalisation-service:8080
+          predicates:
+            - Path=/api-docs/geolocalisation
+          filters:
+            - RewritePath=/api-docs/geolocalisation,/v3/api-docs

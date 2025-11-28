@@ -14,4 +14,6 @@ public class TrajetStationResponseDTO {
     private String stationName;
     private Integer ordreDansTrajet;
     private Integer estimatedMinutes;
+    private Double latitude;
+    private Double longitude;
 }

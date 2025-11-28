@@ -24,6 +24,12 @@ public class Station {
     @Column(name = "city_id")
     private Long cityId;
 
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
     @OneToMany(mappedBy = "station", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrajetStation> trajetStations;
 }

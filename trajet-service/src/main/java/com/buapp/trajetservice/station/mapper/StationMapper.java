@@ -11,6 +11,8 @@ public class StationMapper {
         return Station.builder()
                 .nom(dto.getNom())
                 .cityId(dto.getCityId())
+                .latitude(dto.getLatitude())
+                .longitude(dto.getLongitude())
                 .build();
     }
 
@@ -19,6 +21,8 @@ public class StationMapper {
                 .id(station.getId())
                 .nom(station.getNom())
                 .cityId(station.getCityId())
+                .latitude(station.getLatitude())
+                .longitude(station.getLongitude())
                 .build();
     }
 }
